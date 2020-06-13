@@ -1,0 +1,14 @@
+<div class="card" *ngIf="questions.length > 0">
+    <div class="card-header">
+        {{ questions[qCounter]['category'] }}
+    </div>
+    <div class="text-muted">
+        {{ templCounter }} of {{ questions.length }}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ questions[qCounter]['question'] }}</h5>
+        <button (click)="answer('True')" class="btn btn-primary btn-block">True</button>
+        <button (click)="answer('False')" class="btn btn-danger btn-block">False</button>
+    </div>
+
+</div>
