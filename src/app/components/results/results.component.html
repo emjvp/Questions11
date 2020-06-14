@@ -5,7 +5,7 @@
 <span>{{correctAnsw}}/{{answers.length}}</span>
 <ul class="list-group list-group-flush">
     <li *ngFor="let answer of answers" class="list-group-item" [ngClass]="{'text-success': answer.isCorrect, 'text-danger':!answer.isCorrect}">
-        <i class="fas" [ngClass]="{ 'fa-plus': answer.isCorrect, 'fa-minus': !answer.isCorrect }"></i> Question: {{answer.question}} Answer: {{answer.answer}}, Correct Answers: {{answer.correctAnsw}}
+        <i class="fas" [ngClass]="{ 'fa-plus': answer.isCorrect, 'fa-minus': !answer.isCorrect }"></i> Question: {{answer.question}} <br>Answer: {{answer.answer}}, Correct Answers: {{answer.correctAnsw}}
     </li>
 </ul>
 <button (click)="playAgain()" class="btn btn-block btn-primary" style="margin-bottom: 50px;"> Play Again </button>
