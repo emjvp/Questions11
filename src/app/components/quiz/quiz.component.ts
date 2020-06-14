@@ -24,7 +24,7 @@ export class QuizComponent implements OnInit {
       console.log(this.question);
       console.log(this.questions);
     }else{
-        this.quizService.getQuestions().subscribe( 
+        this.quizService.getQuestions().subscribe(
         (questions: any) => {
 
         this.loading = false;
@@ -54,24 +54,22 @@ export class QuizComponent implements OnInit {
     }else{
       isAnsCorr = false;
     }
-    
+    if (this.quizService.getStorage('answers')){
+      this.quizService.answers = this.quizService.getStorage('answers');
+    }
     this.quizService.answers.push({
         question: this.questions[this.question]['question'],
         answer: answerR,
         correctAnsw: this.questions[this.question]['correct_answer'],
         isCorrect: isAnsCorr
     });
-    
-    
-    console.log(this.quizService.answers);
 
+    console.log(this.quizService.answers);
+    this.quizService.loadStorage('answers', this.quizService.answers);
     this.question++;
     if (this.question === 11){
-      
-      this.quizService.loadStorage('answers', this.quizService.answers);
       this.router.navigateByUrl('/results');
     }else{
-      
       this.router.navigateByUrl(`/quiz/${this.question}`);
     }
   }
