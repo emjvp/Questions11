@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuizService } from '../../services/quiz.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-quiz',
@@ -10,13 +10,36 @@ import { Router } from '@angular/router';
 export class QuizComponent implements OnInit {
 
   questions: any[] = [];
-  qCounter = 0;
-  templCounter = 1;
-  constructor(public quizService: QuizService, private router: Router ) {
-    this.quizService.getQuestions().subscribe( (questions: any) => {
-      console.log(questions);
-      this.questions = questions;
-    });
+  error: boolean;
+  loading: boolean;
+  question: number;
+  mensajeError: string;
+
+  constructor(public quizService: QuizService, private router: Router, private activatedRoute: ActivatedRoute ) {
+    this.loading = true;
+    this.question = Number(this.activatedRoute.snapshot.paramMap.get('question'));
+    if (this.quizService.getStorage('questions')){
+      this.loading = false;
+      this.questions = this.quizService.getStorage('questions');
+      console.log(this.question);
+      console.log(this.questions);
+    }else{
+        this.quizService.getQuestions().subscribe( 
+        (questions: any) => {
+
+        this.loading = false;
+        this.questions = questions;
+        console.log(questions);
+        this.quizService.loadStorage('questions', this.questions);
+        },
+        (err) => {
+          console.log(err);
+          this.mensajeError = err.error.error.message;
+          this.loading = false;
+          this.error = true;
+        }
+        );
+    }
   }
 
   ngOnInit(): void {
@@ -25,27 +48,31 @@ export class QuizComponent implements OnInit {
   answer(answerR: string){
     let isAnsCorr: boolean;
 
-    if (this.questions[this.qCounter]['correct_answer'] === answerR){
-      this.quizService.correctAnsw++;
+    if (this.questions[this.question]['correct_answer'] === answerR){
+
       isAnsCorr = true;
     }else{
       isAnsCorr = false;
     }
-
+    
     this.quizService.answers.push({
-      question: this.questions[this.qCounter]['question'],
-      answer: answerR,
-      correctAnsw: this.questions[this.qCounter]['correct_answer'],
-      isCorrect: isAnsCorr
+        question: this.questions[this.question]['question'],
+        answer: answerR,
+        correctAnsw: this.questions[this.question]['correct_answer'],
+        isCorrect: isAnsCorr
     });
+    
+    
     console.log(this.quizService.answers);
 
-    this.qCounter++;
-    if (this.qCounter === 11){
+    this.question++;
+    if (this.question === 11){
+      
+      this.quizService.loadStorage('answers', this.quizService.answers);
       this.router.navigateByUrl('/results');
     }else{
-      this.templCounter++;
+      
+      this.router.navigateByUrl(`/quiz/${this.question}`);
     }
   }
-
 }

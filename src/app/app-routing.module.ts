@@ -6,7 +6,7 @@ import { ResultsComponent } from './components/results/results.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'quiz', component: QuizComponent },
+  { path: 'quiz/:question', component: QuizComponent },
   { path: 'results', component: ResultsComponent },
   { path: '**', pathMatch: 'full', redirectTo: 'home'}
 ];

@@ -8,10 +8,12 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class QuizService {
+
   answers: Answer[] = [];
-  correctAnsw = 0;
-  
-  constructor(private http: HttpClient) { }
+
+
+
+  constructor(private http: HttpClient) {}
 
   getQuery(amount: number = 11, difficulty: string = 'hard', type: string = 'boolean' ){
     const API_URL = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=${type}`;
@@ -20,5 +22,14 @@ export class QuizService {
   getQuestions(){
     return this.getQuery()
                 .pipe( map ( data => data['results']));
+  }
+  loadStorage(collection: string, data: any){
+    localStorage.setItem(collection, JSON.stringify(data));
+  }
+  getStorage(collection: string){
+    return JSON.parse(localStorage.getItem(collection));
+  }
+  clearStorage(){
+    localStorage.clear();
   }
 }

@@ -2,9 +2,9 @@
     <i class="fas fa-plus text-success"></i> are correct answers, and <i class="fas fa-minus text-danger"></i> are incorrect
 </div>
 <h1>You scored</h1>
-<span>{{correctAnsw}}/{{quizService.answers.length}}</span>
+<span>{{correctAnsw}}/{{answers.length}}</span>
 <ul class="list-group list-group-flush">
-    <li *ngFor="let answer of quizService.answers" class="list-group-item" [ngClass]="{'text-success': answer.isCorrect, 'text-danger':!answer.isCorrect}">
+    <li *ngFor="let answer of answers" class="list-group-item" [ngClass]="{'text-success': answer.isCorrect, 'text-danger':!answer.isCorrect}">
         <i class="fas" [ngClass]="{ 'fa-plus': answer.isCorrect, 'fa-minus': !answer.isCorrect }"></i> Question: {{answer.question}} Answer: {{answer.answer}}, Correct Answers: {{answer.correctAnsw}}
     </li>
 </ul>

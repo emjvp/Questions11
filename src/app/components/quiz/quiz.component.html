@@ -1,12 +1,16 @@
+<i *ngIf="loading" class="fas fa-sync fa-spin" style="font-size: 100px;"></i>
+<div *ngIf="error" class="alert alert-danger" role="alert">
+    {{mensajeError}}
+</div>
 <div class="card" *ngIf="questions.length > 0">
     <div class="card-header">
-        {{ questions[qCounter]['category'] }}
+        {{ questions[question]['category'] }}
     </div>
     <div class="text-muted">
-        {{ templCounter }} of {{ questions.length }}
+        {{ question + 1 }} of {{ questions.length }}
     </div>
     <div class="card-body">
-        <h5 class="card-title">{{ questions[qCounter]['question'] }}</h5>
+        <h5 class="card-title">{{ questions[question]['question'] }}</h5>
         <button (click)="answer('True')" class="btn btn-primary btn-block">True</button>
         <button (click)="answer('False')" class="btn btn-danger btn-block">False</button>
     </div>
